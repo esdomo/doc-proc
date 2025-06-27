@@ -18,9 +18,9 @@ public class FileProcessorJobManager {
     private final JobLauncher jobLauncher;
     private final Job processFilesJob;
 
-    public FileProcessorJobManager(FileLoaderService fileLoaderService, JobLauncher jobLauncher, Job processFilesJob) {
+    public FileProcessorJobManager(FileLoaderService fileLoaderService, JobLauncher asyncJobLauncher, Job processFilesJob) {
         this.fileLoaderService = fileLoaderService;
-        this.jobLauncher = jobLauncher;
+        this.jobLauncher = asyncJobLauncher;
         this.processFilesJob = processFilesJob;
     }
 
