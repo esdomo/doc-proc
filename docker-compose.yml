@@ -1,0 +1,8 @@
+services:
+  doc-proc-app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8080:8080"
+    container_name: doc-proc
