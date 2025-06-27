@@ -1,2 +1,7 @@
-config:
-  input-folder: ./input
+spring:
+  profiles:
+    active: dev
+
+logging:
+  level:
+    root: INFO
