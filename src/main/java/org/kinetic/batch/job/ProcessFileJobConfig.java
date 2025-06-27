@@ -1,0 +1,44 @@
+package org.kinetic.batch.job;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.Step;
+import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemWriter;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.PlatformTransactionManager;
+
+import java.nio.file.Path;
+
+@Configuration
+@Slf4j
+public class ProcessFileJobConfig {
+
+    @Bean
+    public Job processFilesJob(JobRepository jobRepository, Step processFilesStep) {
+        return new JobBuilder("processFilesJob", jobRepository)
+                .start(processFilesStep)
+                .build();
+    }
+
+    @Bean
+    public Step processFilesStep(
+            JobRepository jobRepository,
+            PlatformTransactionManager transactionManager,
+            ItemReader<Path> textFileReader,
+            ItemProcessor<Path, String> textFileProcessor,
+            ItemWriter<String> textFileWriter
+    ) {
+        return new StepBuilder("processFilesStep", jobRepository)
+                .<Path, String>chunk(1, transactionManager)
+                .reader(textFileReader)
+                .processor(textFileProcessor)
+                .writer(textFileWriter)
+                .build();
+    }
+}

@@ -7,6 +7,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("config")
 @Getter
 @Setter
-public class AppProperties {
+public class AppConfig {
     private String inputFolder;
 }

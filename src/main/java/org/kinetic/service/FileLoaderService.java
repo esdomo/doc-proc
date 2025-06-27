@@ -2,7 +2,7 @@ package org.kinetic.service;
 
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import org.kinetic.config.AppProperties;
+import org.kinetic.config.AppConfig;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -18,8 +18,8 @@ public class FileLoaderService {
 
     private final Path inputFolder;
 
-    public FileLoaderService(AppProperties appProperties) {
-        this.inputFolder = Paths.get(appProperties.getInputFolder());
+    public FileLoaderService(AppConfig appConfig) {
+        this.inputFolder = Paths.get(appConfig.getInputFolder());
     }
 
     public List<Path> listTextFiles() throws IOException {
