@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class StreamTextProcessor implements TextProcessor {
+
     private int lineCount = 0;
     private int wordCount = 0;
     private final HashMap<String, Integer> wordFreq = new HashMap<>();
