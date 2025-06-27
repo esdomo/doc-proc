@@ -5,4 +5,6 @@ services:
       dockerfile: docker/Dockerfile
     ports:
       - "8080:8080"
+    volumes:
+      - ./input:/input
     container_name: doc-proc

@@ -2,10 +2,19 @@
 
 Document Processor service to process text files from a specific directory.
 
+## 📁 File Input Directory
 
-## Run with Docker
+Server reads `.txt` files from a configurable folder on the filesystem.
 
-Make sure the app is built first:
+### 🔧 Configure via `application.yml`:
+```yaml
+config:
+  input-folder: ./input
+```
+
+## 🐳 Run with Docker
+
+Make sure the artifact is built first:
 
 ``` bash
 mvn clean package
@@ -14,7 +23,7 @@ mvn clean package
 Build the image:
 
 ``` bash
-docker build -t doc-proc-app .
+docker build -f docker/Dockerfile -t doc-proc-app .
 ```
 
 Run the container:
