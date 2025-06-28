@@ -24,9 +24,9 @@ import java.nio.file.Path;
 public class ProcessFileJobConfig {
 
     @Bean
-    public Job processFilesJob(JobRepository jobRepository, Step processFilesStep) {
+    public Job processFilesJob(JobRepository jobRepository, Step masterStep) {
         return new JobBuilder("processFilesJob", jobRepository)
-                .start(processFilesStep)
+                .start(masterStep)
                 .build();
     }
 
@@ -46,11 +46,36 @@ public class ProcessFileJobConfig {
                 .build();
     }
 
+    //Async setup
+
     @Bean
-    public JobLauncher asyncJobLauncher(JobRepository jobRepository) {
+    public JobLauncher asyncJobLauncher(JobRepository jobRepository, SimpleAsyncTaskExecutor batchTaskExecutor) {
         TaskExecutorJobLauncher jobLauncher = new TaskExecutorJobLauncher();
         jobLauncher.setJobRepository(jobRepository);
-        jobLauncher.setTaskExecutor(new SimpleAsyncTaskExecutor());
+        jobLauncher.setTaskExecutor(batchTaskExecutor);
         return jobLauncher;
+    }
+
+    /**
+     * MasterStep creates partitions for each fileName provided by the filePartitioner
+     * Each partition is assigned to a worker which executes the processFileStep
+     */
+    @Bean
+    public Step masterStep(JobRepository jobRepository,
+                           Step processFilesStep,
+                           FilePartitioner filePartitioner,
+                           SimpleAsyncTaskExecutor batchTaskExecutor) {
+        return new StepBuilder("masterStep", jobRepository)
+                .partitioner("processFilesStep", filePartitioner)
+                .step(processFilesStep)
+                .taskExecutor(batchTaskExecutor)
+                .build();
+    }
+
+    @Bean
+    public SimpleAsyncTaskExecutor batchTaskExecutor() {
+        SimpleAsyncTaskExecutor executor = new SimpleAsyncTaskExecutor("file-proc-task");
+        executor.setConcurrencyLimit(8);
+        return executor;
     }
 }

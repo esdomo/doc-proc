@@ -1,5 +1,6 @@
 package org.kinetic.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
@@ -7,35 +8,27 @@ import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.Path;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
+@Slf4j
 public class FileProcessorJobManager {
 
-    private final FileLoaderService fileLoaderService;
     private final JobLauncher jobLauncher;
     private final Job processFilesJob;
 
-    public FileProcessorJobManager(FileLoaderService fileLoaderService, JobLauncher asyncJobLauncher, Job processFilesJob) {
-        this.fileLoaderService = fileLoaderService;
+    public FileProcessorJobManager(JobLauncher asyncJobLauncher, Job processFilesJob) {
         this.jobLauncher = asyncJobLauncher;
         this.processFilesJob = processFilesJob;
     }
 
     public Long startBatchJob() throws Exception {
-        List<Path> paths = fileLoaderService.listTextFiles();
-        String fileList = paths.stream()
-                .map(Path::toString)
-                .collect(Collectors.joining(","));
 
+        long timestamp = System.currentTimeMillis();
         JobParameters jobParams = new JobParametersBuilder()
-                .addString("filePaths", fileList)
-                .addLong("timestamp", System.currentTimeMillis())
+                .addLong("timestamp", timestamp)
                 .toJobParameters();
 
         JobExecution run = jobLauncher.run(processFilesJob, jobParams);
+        log.info("Launched job with ID: {} at {}", run.getJobId(), timestamp);
         return run.getJobId();
     }
 
