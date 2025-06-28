@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class FileProcessorService {
+public class FileProcessorJobManager {
 
     private final FileLoaderService fileLoaderService;
     private final JobLauncher jobLauncher;
     private final Job processFilesJob;
 
-    public FileProcessorService(FileLoaderService fileLoaderService, JobLauncher jobLauncher, Job processFilesJob) {
+    public FileProcessorJobManager(FileLoaderService fileLoaderService, JobLauncher jobLauncher, Job processFilesJob) {
         this.fileLoaderService = fileLoaderService;
         this.jobLauncher = jobLauncher;
         this.processFilesJob = processFilesJob;

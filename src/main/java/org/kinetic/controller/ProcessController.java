@@ -1,7 +1,7 @@
 package org.kinetic.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.kinetic.service.FileProcessorService;
+import org.kinetic.service.FileProcessorJobManager;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class ProcessController {
 
-    private final FileProcessorService fileProcessorService;
+    private final FileProcessorJobManager fileProcessorJobManager;
 
-    public ProcessController(FileProcessorService fileProcessorService) {
-        this.fileProcessorService = fileProcessorService;
+    public ProcessController(FileProcessorJobManager fileProcessorJobManager) {
+        this.fileProcessorJobManager = fileProcessorJobManager;
     }
 
     @PostMapping("start")
     public ResponseEntity<String> processFiles() {
         log.info("Received request to start document processing.");
         try {
-            Long jobId = fileProcessorService.startBatchJob();
+            Long jobId = fileProcessorJobManager.startBatchJob();
             return ResponseEntity.ok("Started process with id: " + jobId);
         } catch (Exception e) {
             log.error("Job failed", e);

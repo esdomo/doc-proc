@@ -1,32 +1,30 @@
 package org.kinetic.service.processor;
 
+import org.kinetic.data.TextStats;
+
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class StreamTextProcessor implements TextProcessor {
+public class StreamTextFileProcessor implements TextFileProcessor {
 
+    private final List<String> loadedFiles = new ArrayList<>();
     private int lineCount = 0;
     private int wordCount = 0;
     private final HashMap<String, Integer> wordFreq = new HashMap<>();
 
-    private StreamTextProcessor() {
-    }
-
-    public static StreamTextProcessor fromFile(Path filePath) {
-        StreamTextProcessor processor = new StreamTextProcessor();
+    public void processFile(Path filePath) {
+        loadedFiles.add(filePath.getFileName().toString());
         try (Stream<String> lines = Files.lines(filePath)) {
-            lines.forEach(processor::processLine);
+            lines.forEach(this::processLine);
         } catch (IOException e) {
             throw new UncheckedIOException("Failed to read file: " + filePath, e);
         }
-        return processor;
     }
 
     private void processLine(String line) {
@@ -42,22 +40,12 @@ public class StreamTextProcessor implements TextProcessor {
     }
 
     @Override
-    public int getLineCount() {
-        return lineCount;
-    }
-
-    @Override
-    public int getWordCount() {
-        return wordCount;
-    }
-
-    @Override
-    public List<String> getMostFrequentWords(int k) {
-        return wordFreq.entrySet()
-                .stream()
-                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
-                .limit(k)
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
+    public TextStats stats() {
+        return TextStats.builder()
+                .fileNames(loadedFiles)
+                .wordFreq(wordFreq)
+                .lineCount(lineCount)
+                .wordCount(wordCount)
+                .build();
     }
 }
