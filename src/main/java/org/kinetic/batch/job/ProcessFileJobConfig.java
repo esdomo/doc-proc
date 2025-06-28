@@ -1,6 +1,7 @@
 package org.kinetic.batch.job;
 
 import lombok.extern.slf4j.Slf4j;
+import org.kinetic.data.TextStats;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
@@ -31,11 +32,11 @@ public class ProcessFileJobConfig {
             JobRepository jobRepository,
             PlatformTransactionManager transactionManager,
             ItemReader<Path> textFileReader,
-            ItemProcessor<Path, String> textFileProcessor,
-            ItemWriter<String> textFileWriter
+            ItemProcessor<Path, TextStats> textFileProcessor,
+            ItemWriter<TextStats> textFileWriter
     ) {
         return new StepBuilder("processFilesStep", jobRepository)
-                .<Path, String>chunk(1, transactionManager)
+                .<Path, TextStats>chunk(1, transactionManager)
                 .reader(textFileReader)
                 .processor(textFileProcessor)
                 .writer(textFileWriter)
