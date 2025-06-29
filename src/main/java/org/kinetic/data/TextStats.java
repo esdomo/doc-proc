@@ -1,7 +1,7 @@
 package org.kinetic.data;
 
 import lombok.Builder;
-import lombok.Setter;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Builder
+@Getter
 public class TextStats {
 
     private List<String> fileNames;

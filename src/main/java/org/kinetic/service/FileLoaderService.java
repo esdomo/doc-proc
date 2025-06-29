@@ -30,6 +30,7 @@ public class FileLoaderService {
         try (var files = Files.list(inputFolder)) {
             return files
                     .filter(path -> Files.isRegularFile(path) && path.toString().endsWith(".txt"))
+                    .map(Path::toAbsolutePath)
                     .collect(Collectors.toList());
         }
     }
