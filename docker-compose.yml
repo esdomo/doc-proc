@@ -6,9 +6,9 @@ services:
     ports:
       - "5555:5432"
     environment:
-      POSTGRES_DB: docproc
-      POSTGRES_USER: docproc
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
   doc-proc-app:
     build:
@@ -16,6 +16,11 @@ services:
       dockerfile: docker/Dockerfile
     ports:
       - "8080:8080"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      SPRING_PROFILES_ACTIVE: ${PROFILE}
     volumes:
       - ./input:/input
     container_name: doc-proc

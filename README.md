@@ -6,7 +6,8 @@ Files are processed asynchronously and aggregated results are persisted once the
 Aggregated statistics are stored in a database with word frequencies serialized as JSON.
 The development profile uses an in-memory H2 database.
 The production profile uses PostgreSQL which is started via Docker Compose.  
-Provide the `DB_PASSWORD` value through a `.env` file or environment variable.
+Setup DB connection through a `.env` file or environment variable.
+Database schema migrations are handled automatically with Flyway when the application starts
 
 ## File Input Directory
 
