@@ -1,11 +1,10 @@
 package org.kinetic.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.kinetic.data.ProcessStatusResponse;
 import org.kinetic.service.FileProcessorJobManager;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/process")
@@ -19,14 +18,17 @@ public class ProcessController {
     }
 
     @PostMapping("start")
-    public ResponseEntity<String> processFiles() {
+    public ResponseEntity<String> processFiles() throws Exception {
         log.info("Received request to start document processing.");
-        try {
-            Long jobId = fileProcessorJobManager.startBatchJob();
-            return ResponseEntity.ok("Started process with id: " + jobId);
-        } catch (Exception e) {
-            log.error("Job failed", e);
-            return ResponseEntity.internalServerError().body("Failed to process files");
-        }
+        Long jobId = fileProcessorJobManager.startBatchJob();
+        log.info("Started process with id: {}", jobId);
+        return ResponseEntity.ok(String.valueOf(jobId));
+    }
+
+    @GetMapping("results/{jobId}")
+    public ResponseEntity<ProcessStatusResponse> getProcessResult(@PathVariable Long jobId) {
+        log.info("Received request to get process results.");
+        ProcessStatusResponse result = fileProcessorJobManager.getResult(jobId);
+        return ResponseEntity.ok(result);
     }
 }

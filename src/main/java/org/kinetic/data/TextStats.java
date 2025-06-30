@@ -2,8 +2,8 @@ package org.kinetic.data;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.kinetic.entity.TextStatsEntity;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -15,7 +15,16 @@ public class TextStats {
     private List<String> fileNames;
     private int wordCount;
     private int lineCount;
-    private HashMap<String, Integer> wordsFreq;
+    private Map<String, Integer> wordsFreq;
+
+    public static TextStats fromEntity(TextStatsEntity entity) {
+        return new TextStats(
+                entity.getFileNames(),
+                entity.getWordCount(),
+                entity.getLineCount(),
+                entity.getWordsFreq()
+        );
+    }
 
     public List<String> getMostFrequentWords(int k) {
         return wordsFreq.entrySet()
