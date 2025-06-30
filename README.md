@@ -2,11 +2,9 @@
 
 Document Processor service to process text files from a specific directory.
 
-Aggregated statistics from processed files are stored in a database. Flyway is
-used to manage schema migrations.
-
-The development profile uses an in-memory H2 database. The production profile
-uses PostgreSQL which is started via Docker Compose.
+Aggregated statistics from processed files are stored in a database.
+The development profile uses an in-memory H2 database.
+The production profile uses PostgreSQL which is started via Docker Compose.
 
 ## 📁 File Input Directory
 

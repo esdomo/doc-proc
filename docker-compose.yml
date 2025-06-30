@@ -1,4 +1,15 @@
 services:
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    restart: unless-stopped
+    ports:
+      - "5555:5432"
+    environment:
+      POSTGRES_DB: docproc
+      POSTGRES_USER: docproc
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+
   doc-proc-app:
     build:
       context: .
