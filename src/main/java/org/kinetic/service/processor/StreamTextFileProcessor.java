@@ -43,7 +43,7 @@ public class StreamTextFileProcessor implements TextFileProcessor {
     public TextStats stats() {
         return TextStats.builder()
                 .fileNames(loadedFiles)
-                .wordFreq(wordFreq)
+                .wordsFreq(wordFreq)
                 .lineCount(lineCount)
                 .wordCount(wordCount)
                 .build();

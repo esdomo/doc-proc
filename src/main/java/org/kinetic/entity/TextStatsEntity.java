@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.Map;
+
 @Entity
 @Table(name = "text_stats")
 @Data
@@ -20,6 +23,9 @@ public class TextStatsEntity {
     private Long jobId;
     private Integer wordCount;
     private Integer lineCount;
-    private String mostFrequentWords;
-    private String fileNames;
+    private List<String> fileNames;
+
+    @Column(columnDefinition = "text")
+    @Convert(converter = WordFreqConverter.class)
+    private Map<String, Integer> wordsFreq;
 }

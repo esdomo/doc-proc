@@ -30,8 +30,8 @@ public class JobCompletionListener implements JobExecutionListener {
                 .jobId(jobExecution.getJobId())
                 .wordCount(aggregated.getWordCount())
                 .lineCount(aggregated.getLineCount())
-                .mostFrequentWords(aggregated.getMostFrequentWords(10).toString())
-                .fileNames(aggregated.getFileNames().toString())
+                .wordsFreq(aggregated.getWordsFreq())
+                .fileNames(aggregated.getFileNames())
                 .build());
     }
 }

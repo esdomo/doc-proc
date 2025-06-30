@@ -15,10 +15,10 @@ public class TextStats {
     private List<String> fileNames;
     private int wordCount;
     private int lineCount;
-    private HashMap<String, Integer> wordFreq;
+    private HashMap<String, Integer> wordsFreq;
 
     public List<String> getMostFrequentWords(int k) {
-        return wordFreq.entrySet()
+        return wordsFreq.entrySet()
                 .stream()
                 .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
                 .limit(k)
