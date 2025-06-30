@@ -2,6 +2,7 @@ package org.kinetic.batch.job;
 
 import lombok.extern.slf4j.Slf4j;
 import org.kinetic.data.TextStats;
+import org.kinetic.repository.TextStatsRepository;
 import org.kinetic.service.TextStatsAggregator;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -56,9 +57,9 @@ public class ProcessFileJobConfig {
     }
 
     @Bean
-    @JobScope
-    public JobCompletionListener jobCompletionListener(ObjectFactory<TextStatsAggregator> aggregatorFactory) {
-        return new JobCompletionListener(aggregatorFactory);
+    public JobCompletionListener jobCompletionListener(ObjectFactory<TextStatsAggregator> aggregatorFactory,
+                                                       TextStatsRepository repository) {
+        return new JobCompletionListener(aggregatorFactory, repository);
     }
 
     @Bean

@@ -20,8 +20,8 @@ public class TextStatsAggregator {
         }
         wordCount += stats.getWordCount();
         lineCount += stats.getLineCount();
-        if (stats.getWordFreq() != null) {
-            stats.getWordFreq().forEach((k, v) ->
+        if (stats.getWordsFreq() != null) {
+            stats.getWordsFreq().forEach((k, v) ->
                     wordFreq.merge(k, v, Integer::sum));
         }
     }
@@ -31,7 +31,7 @@ public class TextStatsAggregator {
                 .fileNames(new ArrayList<>(fileNames))
                 .wordCount(wordCount)
                 .lineCount(lineCount)
-                .wordFreq(new HashMap<>(wordFreq))
+                .wordsFreq(new HashMap<>(wordFreq))
                 .build();
     }
 }

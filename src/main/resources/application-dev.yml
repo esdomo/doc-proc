@@ -1,12 +1,9 @@
-config:
-  input-folder: ./input
-
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=TRUE;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:docproc;DB_CLOSE_ON_EXIT=TRUE;DB_CLOSE_DELAY=-1
     driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    username: docproc
+    password: test123
   h2:
     console:
       enabled: true
@@ -15,10 +12,6 @@ spring:
       initialize-schema: always
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
     show-sql: true
     database-platform: org.hibernate.dialect.H2Dialect
-
-logging:
-  level:
-    root: INFO
