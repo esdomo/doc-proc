@@ -1,0 +1,1 @@
+ALTER TABLE text_stats ALTER COLUMN file_names TYPE text USING file_names::text;

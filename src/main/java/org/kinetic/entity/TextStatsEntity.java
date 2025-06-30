@@ -23,6 +23,8 @@ public class TextStatsEntity {
     private Long jobId;
     private Integer wordCount;
     private Integer lineCount;
+
+    @Column(columnDefinition = "text")
     private List<String> fileNames;
 
     @Column(columnDefinition = "text")
