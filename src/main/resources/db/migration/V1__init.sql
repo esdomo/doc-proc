@@ -3,6 +3,6 @@ CREATE TABLE text_stats (
                             job_id BIGINT,
                             word_count INTEGER,
                             line_count INTEGER,
-                            file_names TEXT[],
+                            file_names TEXT,
                             words_freq TEXT
 );
