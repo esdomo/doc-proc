@@ -3,6 +3,7 @@ package org.kinetic.service;
 import lombok.extern.slf4j.Slf4j;
 import org.kinetic.data.ProcessStatusResponse;
 import org.kinetic.data.TextStats;
+import org.kinetic.entity.TextStatsEntity;
 import org.kinetic.exception.ProcessNotFoundException;
 import org.kinetic.repository.TextStatsRepository;
 import org.springframework.batch.core.*;
@@ -57,7 +58,8 @@ public class FileProcessorJobManager {
             );
 
         } else {
-            TextStats textStats = TextStats.fromEntity(textStatsRepository.getReferenceById(jobId));
+            TextStatsEntity textStatsEntity = textStatsRepository.getReferenceById(jobId);
+            TextStats textStats = TextStats.fromEntity(textStatsEntity);
             return new ProcessStatusResponse(
                     jobId,
                     jobExecution.getStatus().name(),

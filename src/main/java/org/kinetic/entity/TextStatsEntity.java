@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.kinetic.entity.converter.FileNamesConverter;
+import org.kinetic.entity.converter.WordFreqConverter;
 
 import java.util.List;
 import java.util.Map;
@@ -25,6 +27,7 @@ public class TextStatsEntity {
     private Integer lineCount;
 
     @Column(columnDefinition = "text")
+    @Convert(converter = FileNamesConverter.class)
     private List<String> fileNames;
 
     @Column(columnDefinition = "text")
