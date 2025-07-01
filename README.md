@@ -5,8 +5,9 @@ Files are processed asynchronously and aggregated results are persisted once the
 
 Aggregated statistics are stored in a database with word frequencies serialized as JSON.
 The development profile uses an in-memory H2 database.
-The production profile uses PostgreSQL which is started via Docker Compose.  
-Setup DB connection through a `.env` file or environment variable.
+The production profile uses PostgreSQL. Docker Compose will build and start both the
+application and the database.
+Setup the DB connection through the provided `.env` file or environment variables.
 Database schema migrations are handled automatically with Flyway when the application starts
 
 ## File Input Directory
@@ -35,25 +36,12 @@ The raw OpenAPI specification is available at `http://localhost:8080/v3/api-docs
 
 ## Run with Docker
 
-Make sure the artifact is built first:
-
-``` bash
-mvn clean package
-```
-
-Build the image:
-
-``` bash
-docker build -f docker/Dockerfile -t doc-proc-app .
-```
-
-Run the container:
-``` bash
-docker run -p 8080:8080 doc-proc-app
-```
-
-**Or use Docker Compose:**
+The easiest way to launch the service in production mode is via Docker Compose.
+It builds the application image and starts a PostgreSQL database container.
 
 ``` bash
 docker-compose up --build
 ```
+
+Compose reads variables such as database credentials from the provided `.env`
+file. The API will be available on port `8080` and PostgreSQL on port `5555`.
