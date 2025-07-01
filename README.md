@@ -10,6 +10,38 @@ application and the database.
 Setup the DB connection through the provided `.env` file or environment variables.
 Database schema migrations are handled automatically with Flyway when the application starts
 
+
+#Flows
+
+
+## Process documents
+
+``` mermaid
+flowchart TD
+
+  %% Main flow
+  A[Client] -->|POST /process/start| B[ProcessController]
+  B --> C[FileProcessorJobManager]
+  C -->|Build JobParameters| D[JobLauncher]
+  D -->|Run Job| E[processFilesJob]
+  E --> F["masterStep: partition input files"]
+  F --> G1["processFilesStep #1 (parallel)"]
+  F --> G2["processFilesStep #2 (parallel)"]
+
+  %% Process File Step (reusable logic)
+  subgraph "processFilesStep logic"
+    direction TB
+    R1[TextFileReader] --> R2[TextStatsProcessor] --> R3[TextFileWriter]
+  end
+
+  G1 --> R1
+  G2 --> R1
+
+  R3 --> I[JobCompletionListener: aggregate final stats]
+
+
+```
+
 ## File Input Directory
 
 Server reads `.txt` files from a configurable folder on the filesystem.
