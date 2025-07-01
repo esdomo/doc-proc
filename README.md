@@ -1,14 +1,15 @@
 # Document Processor
 
 Document Processor service to process text files from a specific directory.
-Files are processed asynchronously and aggregated results are persisted once the job completes.
 
-Aggregated statistics are stored in a database with word frequencies serialized as JSON.
-The development profile uses an in-memory H2 database.
-The production profile uses PostgreSQL. Docker Compose will build and start both the
+* Files are processed asynchronously and aggregated results are persisted once the job completes.
+* Aggregated statistics are stored in a database with word frequencies serialized as JSON.
+* The development profile uses an in-memory H2 database.
+* The production profile uses PostgreSQL. Docker Compose will build and start both the
 application and the database.
+* Database schema migrations are handled automatically with Flyway when the application starts
+
 Setup the DB connection through the provided `.env` file or environment variables.
-Database schema migrations are handled automatically with Flyway when the application starts
 
 
 #Flows
