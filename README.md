@@ -28,6 +28,10 @@ curl -X POST http://localhost:8080/process/start
 ```
 The endpoint returns the started job's ID immediately while processing continues asynchronously.
 
+# API Documentation
+
+After starting the application, navigate to `http://localhost:8080/swagger-ui.html` to explore the available endpoints using Swagger UI. 
+The raw OpenAPI specification is available at `http://localhost:8080/v3/api-docs`.
 
 ## Run with Docker
 
